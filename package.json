@@ -3,7 +3,7 @@
   "displayName": "HTMLens - Universal Template & HTML Previewer",
   "description": "Live preview for HTML, Django templates, Jinja2, Nunjucks and React/JSX components, right inside the editor.",
   "version": "1.0.0",
-  "publisher": "local-dev",
+  "publisher": "AnandShah10",
   "repository": {
     "type": "git",
     "url": "https://github.com/AnandShah10/HTMLens.git"
@@ -13,7 +13,8 @@
   },
   "categories": [
     "Other",
-    "Visualization"
+    "Visualization",
+    "Programming Languages"
   ],
   "activationEvents": [
     "onLanguage:html",
