@@ -33,7 +33,7 @@ htmlens/
 Requires Node.js 18+ and npm.
 
 ```bash
-cd prismview
+cd htmlens
 npm install
 ```
 
@@ -43,10 +43,10 @@ React/Babel for the JSX preview are loaded from a CDN at preview-time, not bundl
 
 ## Run it (development mode)
 
-1. Open the `prismview` folder in Antigravity.
+1. Open the `htmlens` folder in VS Code.
 2. Press **F5** (or Run → Start Debugging). This compiles TypeScript in watch
    mode and launches a second "Extension Development Host" window with
-   PrismView loaded.
+   HTMLens loaded.
 3. In that new window, open any `.html`, `.django`, `.jinja2`, `.njk`, `.jsx`,
    or `.tsx` file.
 4. Click the preview icon in the editor title bar (top-right of the tab), or
@@ -64,7 +64,7 @@ Useful commands (command palette):
 
 ## Settings
 
-In Antigravity settings (search "htmlens"):
+In VS Code settings (search for "htmlens"):
 
 - `htmlens.mockVariableStyle` — `"highlight"` (default, shows `{{ var.name }}`
   as a tagged placeholder) or `"value"` (guesses a plausible sample value based
@@ -82,9 +82,8 @@ npm run package
 
 This produces `htmlens-1.0.0.vsix` in the project root. Install it via:
 
-- Antigravity: Extensions panel → `...` menu → **Install from VSIX...** → select the file.
-- Or from the terminal: `antigravity --install-extension htmlens-1.0.0.vsix`
-  (substitute your editor's CLI binary name if different — e.g. `code` for VS Code proper).
+- VS Code: Extensions panel → `...` menu → **Install from VSIX...** → select the file.
+- Or from the terminal: `code --install-extension htmlens-1.0.0.vsix`
 
 ## Known limitations (by design, not bugs)
 
