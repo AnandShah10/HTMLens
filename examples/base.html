@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}HTMLens Base Template{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <nav>
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'about' %}">About</a>
+    </nav>
+    
+    <main>
+        {% block content %}
+            <p>Default content from base template.</p>
+        {% endblock %}
+    </main>
+    
+    <footer>
+        <p>© 2024 HTMLens • Base template footer</p>
+    </footer>
+</body>
+</html>

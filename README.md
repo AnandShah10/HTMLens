@@ -1,100 +1,135 @@
 # HTMLens — Universal Template & HTML Previewer
 
-Live preview for **plain HTML**, **Django templates**, **Jinja2**, **Nunjucks**,
-and **React/JSX (.jsx/.tsx)** components — directly inside VS Code.
+[![Version](https://img.shields.io/badge/version-1.0.2-blue.svg)](https://marketplace.visualstudio.com/items?itemName=AnandShah.htmlens)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![VS Code Marketplace](https://img.shields.io/badge/VS%20Code-Marketplace-blue?logo=visual-studio-code)](https://marketplace.visualstudio.com/items?itemName=AnandShah.htmlens)
 
-## What it actually does
+**Live preview for HTML, Django/Jinja/Nunjucks templates, and React/JSX components — directly in VS Code.**
 
-| File type | Behavior |
-|---|---|
-| `.html` / `.htm` | Standard live preview. Relative `<link>`, `<script src>`, `<img src>` paths are rewritten to load correctly inside the webview sandbox. |
-| `.django`, `.jinja`, `.jinja2`, `.j2`, `.njk` | Mock-renders the template: `{{ var }}` is replaced with a highlighted placeholder (or a generated sample value, configurable), `{% if %}/{% else %}/{% endif %}` renders one branch (toggle with a command), `{% for %}` renders the loop body once with a "repeats for each item" badge, `{% extends %}` + `{% block %}` resolves the full inheritance chain by searching your workspace for the parent template, and `{% include %}` inlines the referenced file recursively (depth-limited to avoid cycles). |
-| `.jsx` / `.tsx` | Transpiled in-browser with Babel standalone and rendered with React 18 (loaded from a CDN). This is a **preview**, not a bundler — local `import` statements (`./Button`, `../hooks/useThing`) are stripped and flagged in a warning banner, since there's no module resolution without a real build step. Self-contained components render fine. |
+HTMLens provides instant, intelligent previews for a wide range of web and template files without leaving your editor. Perfect for frontend developers, Django engineers, and anyone working with component-based UIs.
 
-## Project layout
+**Links**: [Changelog](CHANGELOG.md) | [Development Guide](DEVELOPMENT.md) | [Contributing](CONTRIBUTING.md) | [Report an Issue](https://github.com/AnandShah10/HTMLens/issues)
 
-```
-htmlens/
-├── package.json
-├── tsconfig.json
-├── .vscodeignore
-├── .vscode/
-│   ├── launch.json
-│   └── tasks.json
-└── src/
-    ├── extension.ts        # activation, command registration, live-refresh wiring
-    ├── previewPanel.ts      # webview lifecycle, asset URI rewriting
-    ├── templateProcessor.ts # Django/Jinja/Nunjucks mock-rendering engine
-    └── reactRenderer.ts     # React/JSX in-browser transpile + render
-```
+## ✨ Features
 
-## Setup
+- **Universal Support**: Seamlessly handles plain HTML, Django templates, Jinja2, Nunjucks, JSX, and TSX files.
+- **Smart Template Mocking**: 
+  - Renders `{{ variables }}` as highlighted placeholders or realistic sample values (configurable).
+  - Intelligently handles `{% if %}`/`{% else %}`, `{% for %}`, `{% extends %}`, `{% include %}`, and common tags.
+  - Resolves template inheritance and includes by searching your workspace (with depth limiting to prevent cycles).
+- **React/JSX Preview**: In-browser transpilation using Babel Standalone (React preset) + React 18 from CDN. Supports JSX syntax and common hooks; renders default-exported components instantly.
+- **Live Updates**: Automatic preview refresh on file changes with debounced updates.
+- **Interactive Controls**: Toggle between `if`/`else` branches directly from the command palette.
+- **Webview Enhancements**: Proper CSP, asset path rewriting for CSS/JS/images, informative warning banners for unresolved elements.
+- **Lightweight & Fast**: No heavy dependencies — everything runs in the VS Code webview.
 
-Requires Node.js 18+ and npm.
+## 📸 Screenshots
 
+Representative screenshots (as SVGs) and ready-to-use demo files are provided in the [`examples/`](https://github.com/AnandShah10/HTMLens/tree/main/examples) and [`media/`](https://github.com/AnandShah10/HTMLens/tree/main/media) directories of the repository.
+
+> *The diagrams illustrate: live HTML preview with styling, Django/Jinja mock rendering (variables, conditionals, loops, unhandled tag warnings), React component rendering with interactive state/hooks and import warnings, and full template inheritance resolution with merged blocks.*
+
+**Try the demos yourself**:
+- Clone the repo and open `examples/html-example.html`, `examples/django-example.html` (and `base.html`), or `examples/react-example.jsx`.
+- Use the command **HTMLens: Open Preview to the Side** (or click the preview icon in the editor title bar).
+- Edit the files to see live updates, use the toggle command for conditionals, or interact with the React component.
+
+### Demo Files (`examples/`)
+- `html-example.html` + `styles.css` — Standard HTML with CSS; demonstrates asset path rewriting in the webview.
+- `django-example.html` (with `base.html`) — Complex template using variables, `{% if %}`/`{% else %}`, `{% for %}`, `{% extends %}`, `{% block %}`, and unhandled tags.
+- `react-example.jsx` — Modern JSX with `useState`, `useEffect`, inline styles, and a default export (transpiled via Babel React preset at preview time).
+
+## 🚀 Installation
+
+### From VS Code Marketplace (Recommended)
+
+1. Open **Extensions** view (`Ctrl+Shift+X` or `Cmd+Shift+X`).
+2. Search for **"HTMLens"**.
+3. Click **Install**.
+
+### Manual Installation
+
+Download the latest `.vsix` from the [Releases](https://github.com/AnandShah10/HTMLens/releases) page or build it yourself (see below), then:
+
+- In VS Code: Extensions view → `...` → **Install from VSIX...**
+- Or run: `code --install-extension htmlens-1.0.2.vsix`
+
+## 📖 Supported File Types & Behavior
+
+| File Type | Extension(s) | Preview Behavior |
+|-----------|--------------|------------------|
+| **HTML** | `.html`, `.htm` | Standard live preview with automatic rewriting of relative asset paths (`<img>`, `<link>`, `<script>`) to work within the webview sandbox. |
+| **Django/Jinja/Nunjucks** | `.django`, `.jinja`, `.jinja2`, `.j2`, `.njk` | **Mock rendering engine**:<br>• Variables rendered as placeholders or mock values<br>• Conditional logic (`{% if %}`/`{% else %}`) with toggle support<br>• Loops (`{% for %}`) rendered once with annotation<br>• Full template inheritance (`{% extends %}` + `{% block %}`) and recursive includes resolved from workspace files<br>• Unhandled tags preserved as visible HTML comments |
+| **React** | `.jsx`, `.tsx` | **In-browser transpilation & render** using Babel Standalone (with React preset) + React 18 (via CDN). JSX is automatically transformed; local imports are stripped with a warning banner. Ideal for quick single-component previews. |
+
+*Engine detection is automatic based on file extension and content patterns.*
+
+## ⌨️ Commands
+
+Access via Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`) or editor title bar icon:
+
+- **HTMLens: Open Preview** — Open preview in a new tab.
+- **HTMLens: Open Preview to the Side** — Split view (recommended).
+- **HTMLens: Refresh Preview** — Force refresh the current preview.
+- **HTMLens: Toggle {% if %}/{% else %} Branch** — Switch rendered conditional branch.
+
+A preview icon appears automatically in the editor title bar for supported files.
+
+## ⚙️ Configuration
+
+Search for "htmlens" in VS Code Settings (`Ctrl+,`):
+
+| Setting | Type | Default | Description |
+|---------|------|---------|-------------|
+| `htmlens.mockVariableStyle` | `string` | `"highlight"` | How to render template variables: `"highlight"` (styled placeholder) or `"value"` (plausible sample data based on variable name). |
+| `htmlens.includeMaxDepth` | `number` | `5` | Maximum recursion depth for resolving `{% extends %}` and `{% include %}` to prevent infinite loops. |
+
+## 🔍 How It Works
+
+- **Template Processor**: Detects engine, resolves inheritance/includes, mocks control structures and variables while preserving structure.
+- **React Renderer**: Strips React/local imports, transpiles JSX via Babel Standalone (React preset), and mounts the default-exported component in a sandboxed React 18 environment.
+- **Preview Panel**: Singleton Webview with proper security (CSP + nonce), asset URI mapping via `asWebviewUri`, and live update listeners.
+- **Extension Core**: Registers commands, handles document change/save events with debouncing for performance.
+
+See [DEVELOPMENT.md](DEVELOPMENT.md) for full architecture details, debugging instructions, and guidance on adding new features (e.g., additional template tags or React hook support).
+
+## ⚠️ Known Limitations
+
+- **React Preview**: Not a full bundler. Multi-file components, local CSS modules, or complex npm dependencies may not resolve. Designed for quick single-component validation.
+- **Template Tags**: Unhandled or custom tags/filters appear as visible `<!-- HTMLens: unhandled tag {% foo %} -->` comments (better transparency than silent failure).
+- **File Resolution**: `{% extends %}` and `{% include %}` search only within the open workspace (skipping `node_modules`). Custom template loaders with external paths may require manual adjustment.
+- **Performance**: Deeply nested includes or very large templates may hit configured depth limits.
+
+These are intentional design choices to keep the extension lightweight and focused on fast previews.
+
+## 🛠️ Development & Contributing
+
+See:
+- [DEVELOPMENT.md](DEVELOPMENT.md) — Architecture, setup, building, extending the mock renderer.
+- [CONTRIBUTING.md](CONTRIBUTING.md) — Guidelines, code standards, PR process.
+
+**Quick Development Setup**:
 ```bash
-cd htmlens
+git clone https://github.com/AnandShah10/HTMLens.git
+cd HTMLens
 npm install
+# Press F5 in VS Code to start debugging
 ```
 
-This pulls in `typescript`, `@types/vscode`, `@types/node`, and `@vscode/vsce`
-(only dev dependencies — the extension itself has zero runtime npm dependencies;
-React/Babel for the JSX preview are loaded from a CDN at preview-time, not bundled).
-
-## Run it (development mode)
-
-1. Open the `htmlens` folder in VS Code.
-2. Press **F5** (or Run → Start Debugging). This compiles TypeScript in watch
-   mode and launches a second "Extension Development Host" window with
-   HTMLens loaded.
-3. In that new window, open any `.html`, `.django`, `.jinja2`, `.njk`, `.jsx`,
-   or `.tsx` file.
-4. Click the preview icon in the editor title bar (top-right of the tab), or
-   run **HTMLens: Open Preview to the Side** from the command palette
-   (`Ctrl+Shift+P` / `Cmd+Shift+P`).
-5. Edit and save the file — the preview updates automatically (debounced,
-   ~250ms after you stop typing).
-
-Useful commands (command palette):
-- `HTMLens: Open Preview`
-- `HTMLens: Open Preview to the Side`
-- `HTMLens: Toggle {% if %}/{% else %} Branch` — flips which branch of
-  conditional blocks is mock-rendered, so you can eyeball both states.
-- `HTMLens: Refresh Preview`
-
-## Settings
-
-In VS Code settings (search for "htmlens"):
-
-- `htmlens.mockVariableStyle` — `"highlight"` (default, shows `{{ var.name }}`
-  as a tagged placeholder) or `"value"` (guesses a plausible sample value based
-  on the variable name, e.g. `user.email` → `Sample user.email`, `total_price`
-  → `99.00`).
-- `htmlens.includeMaxDepth` — recursion limit for `{% extends %}` /
-  `{% include %}` resolution (default `5`).
-
-## Building a standalone .vsix (to install without dev mode)
-
+**Build Commands**:
 ```bash
-npm run compile
-npm run package
+npm run compile          # TypeScript → JavaScript
+npm run package          # Create .vsix package
 ```
 
-This produces `htmlens-1.0.0.vsix` in the project root. Install it via:
+We welcome contributions! Please follow conventional commits and update documentation/CHANGELOG as needed.
 
-- VS Code: Extensions panel → `...` menu → **Install from VSIX...** → select the file.
-- Or from the terminal: `code --install-extension htmlens-1.0.0.vsix`
+## 📄 License
 
-## Known limitations (by design, not bugs)
+This project is licensed under the [MIT License](LICENSE) — feel free to use, modify, and distribute.
 
-- The React preview is not a bundler. Multi-file component trees, CSS imports,
-  and non-CDN npm packages won't resolve — this is a fast single-component
-  sanity-check tool, not a dev server replacement.
-- Django template tags/filters not explicitly handled (custom template tags,
-  unusual filters) are left as a visible `<!-- HTMLens: unhandled tag -->`
-  comment rather than silently disappearing, so you always know what wasn't
-  interpreted.
-- `{% extends %}`/`{% include %}` resolution searches your open workspace
-  folder(s) for a matching filename/path; if your template loader has custom
-  search paths configured outside the workspace, resolution may fail (you'll
-  get a warning banner, not a silent blank page).
+---
+
+**Made with ❤️ for the developer community.** Questions or feedback? [Open an issue](https://github.com/AnandShah10/HTMLens/issues) on GitHub.
+
+*Keywords: django preview, jinja2 preview, nunjucks live preview, react jsx preview, html live preview, template mocking, vs code extension*

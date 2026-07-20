@@ -3,6 +3,9 @@ src/**
 .gitignore
 tsconfig.json
 **/*.map
+**/*.log
+**/*.vsix
 node_modules/**
 !node_modules/.bin
 .git/**
+examples/**

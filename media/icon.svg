@@ -1,0 +1,56 @@
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF8A5B"/>
+      <stop offset="55%" stop-color="#EF4272"/>
+      <stop offset="100%" stop-color="#7C3AED"/>
+    </linearGradient>
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#241333"/>
+      <stop offset="100%" stop-color="#180B24"/>
+    </linearGradient>
+    <linearGradient id="barGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FF8A5B"/>
+      <stop offset="100%" stop-color="#EF4272"/>
+    </linearGradient>
+    <filter id="dropShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="2.5" stdDeviation="3" flood-color="#180B24" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <!-- Rounded square backdrop -->
+  <rect x="4" y="4" width="120" height="120" rx="28" fill="url(#bgGrad)"/>
+  <rect x="4" y="4" width="120" height="56" rx="28" fill="#FFFFFF" opacity="0.07"/>
+
+  <!-- Browser / preview window -->
+  <g filter="url(#dropShadow)">
+    <rect x="18" y="27" width="92" height="74" rx="10" fill="#FFFFFF"/>
+    <!-- header bar -->
+    <path d="M18 37 a10 10 0 0 1 10 -10 h72 a10 10 0 0 1 10 10 v8 h-92 z" fill="url(#headerGrad)"/>
+    <circle cx="29" cy="37" r="3.1" fill="#FF8A5B"/>
+    <circle cx="39" cy="37" r="3.1" fill="#FFD166"/>
+    <circle cx="49" cy="37" r="3.1" fill="#4ADE80"/>
+  </g>
+
+  <!-- Body split: template markup -> rendered content -->
+  <g>
+    <!-- left: template code -->
+    <text x="27" y="66" font-family="Menlo, Consolas, monospace" font-size="17" font-weight="700" fill="#7C3AED">{{</text>
+    <text x="27" y="86" font-family="Menlo, Consolas, monospace" font-size="17" font-weight="700" fill="#7C3AED">}}</text>
+
+    <!-- transform arrow -->
+    <path d="M55 63 h16 M65 57 l7 6 l-7 6" fill="none" stroke="#C9CAD8" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- right: rendered preview lines -->
+    <rect x="81" y="55" width="21" height="4.4" rx="2.2" fill="url(#barGrad)"/>
+    <rect x="81" y="64" width="21" height="4.4" rx="2.2" fill="url(#barGrad)" opacity="0.75"/>
+    <rect x="81" y="73" width="13" height="4.4" rx="2.2" fill="url(#barGrad)" opacity="0.5"/>
+  </g>
+
+  <!-- live-preview play badge -->
+  <g filter="url(#dropShadow)">
+    <circle cx="96" cy="94" r="17" fill="#180B24"/>
+    <circle cx="96" cy="94" r="17" fill="none" stroke="#FFFFFF" stroke-width="2.5"/>
+    <path d="M91 87 L104 94 L91 101 Z" fill="#FFFFFF"/>
+  </g>
+</svg>

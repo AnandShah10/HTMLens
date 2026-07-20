@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}HTMLens Django Demo{% endblock %}
+
+{% block content %}
+    <h1>Welcome, {{ user.name|default:"Developer" }}!</h1>
+    
+    {% if user.is_premium %}
+        <div class="premium-banner">
+            <p>🌟 Premium User Dashboard</p>
+        </div>
+    {% else %}
+        <div class="upgrade-cta">
+            <p>Consider upgrading for more features!</p>
+            <a href="{% url 'upgrade' %}">Upgrade Now</a>
+        </div>
+    {% endif %}
+    
+    <h2>Your Recent Items</h2>
+    {% for item in recent_items %}
+        <div class="item-card">
+            <h3>{{ item.title }}</h3>
+            <p>Added on {{ item.date }}</p>
+            <span class="badge">{{ item.status }}</span>
+        </div>
+    {% endfor %}
+    
+    {% comment %}
+    This block is ignored in preview
+    {% endcomment %}
+    
+    <p>Static URL example: <img src="{% static 'images/logo.png' %}" alt="logo"></p>
+    
+    <!-- HTMLens will show warnings for unresolved tags/vars -->
+    {{ unresolved_variable }}
+    {% unknown_tag %}
+{% endblock %}

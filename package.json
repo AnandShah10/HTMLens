@@ -2,12 +2,13 @@
   "name": "htmlens",
   "displayName": "HTMLens - Universal Template & HTML Previewer",
   "description": "Live preview for HTML, Django templates, Jinja2, Nunjucks and React/JSX components, right inside the editor.",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "publisher": "AnandShah",
   "repository": {
     "type": "git",
     "url": "https://github.com/AnandShah10/HTMLens.git"
   },
+  "icon": "media/icon.png",
   "engines": {
     "vscode": "^1.85.0"
   },
@@ -92,7 +93,7 @@
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
-    "package": "vsce package"
+    "package": "npx @vscode/vsce package"
   },
   "devDependencies": {
     "@types/node": "^20.11.0",
